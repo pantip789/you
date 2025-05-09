@@ -1,189 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Wiseplay</title>
+    <title>Wiseplay Categories</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=0.1, maximum-scale=10, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=10, user-scalable=yes">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style>
-        body {
-            background-color: #000;
-            color: #fff;
-            margin: 0;
-            text-align: center;
-            font-family: Arial, sans-serif;
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            transition: background 0.5s ease-in-out;
-        }
+    /* กำหนดสไตล์สำหรับ HTML และ BODY ให้เต็มหน้าจอ */
+    html, body {
+        height: 100%; /* ตั้งความสูงให้เต็มหน้าจอ */
+        margin: 0; /* ลบขอบของหน้าจอ */
+        padding: 0; /* ลบระยะขอบของหน้าจอ */
+        background-color: #000; /* ตั้งพื้นหลังเป็นสีดำ */
+        color: #fff; /* ตั้งสีตัวอักษรเป็นสีขาว */
+        text-align: center; /* ตั้งการจัดตำแหน่งของข้อความให้อยู่กลาง */
+        font-family: 'Arial', sans-serif; /* ตั้งฟอนต์เป็น Arial */
+    }
 
-        .button-container {
-            position: relative;
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            z-index: 10;
-        }
+    h1 {
+        font-size: 2.5rem; /* ขนาดตัวอักษรหัวข้อใหญ่ */
+        margin-top: 20px; /* เว้นระยะห่างจากด้านบน */
+    }
 
-        .button {
-            background-color: transparent;
-            border: 2px solid lightblue;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
+    #menu {
+        display: flex; /* ใช้ flexbox ในการจัดการตำแหน่งของเมนู */
+        justify-content: center; /* จัดให้อยู่กลาง */
+        gap: 15px; /* เว้นระยะห่างระหว่างแต่ละรายการ */
+        margin: 0; /* ลบขอบด้านนอก */
+        flex-wrap: wrap; /* ให้สามารถย้ายไอเท็มลงบรรทัดถัดไปได้ */
+        overflow-x: auto; /* ให้สามารถเลื่อนแนวนอนได้เมื่อเนื้อหามากเกินไป */
+        padding: 0; /* ลบระยะขอบในส่วนของเมนู */
+        width: 100%; /* กำหนดให้เมนูขยายเต็มความกว้าง */
+    }
 
-        .button:hover {
-            background-color: lightblue;
-        }
+    #menu img {
+        height: 80px; /* กำหนดความสูงของภาพ */
+        width: 80px; /* กำหนดความกว้างของภาพ */
+        border-radius: 50%; /* ทำให้ภาพมีมุมโค้งเป็นวงกลม */
+        border: 3px solid #87CEFA; /* กำหนดสีของขอบภาพเป็นสีฟ้า */
+        padding: 0; /* ลบระยะขอบในภาพ */
+        box-sizing: border-box; /* ให้ขนาดของภาพรวมขอบเข้าไปในขนาด */
+        cursor: pointer; /* เปลี่ยนเคอร์เซอร์เมื่อชี้ไปที่ภาพ */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* เพิ่มการเคลื่อนไหวเมื่อเกิดการ hover */
+    }
 
-        .file-input {
-            display: none;
-        }
+    #menu img:hover {
+        transform: scale(1.1); /* ขยายภาพขึ้นเล็กน้อยเมื่อ hover */
+        box-shadow: 0 0 15px #87CEFA; /* เพิ่มเงารอบๆ ภาพเมื่อ hover */
+    }
 
-        .icon {
-            width: 20px;
-            height: 20px;
-        }
+    #menu p {
+        font-size: 1rem; /* ขนาดตัวอักษรในข้อความ */
+        color: #87CEFA; /* สีของข้อความเป็นฟ้า */
+        margin-top: 5px; /* เว้นระยะห่างด้านบนของข้อความ */
+        text-decoration: none; /* ลบขีดเส้นใต้จากข้อความ */
+    }
 
-        img.channel {
-            border-radius: 20px;
-            border: 3px solid #87CEFA;
-            padding: 2px;
-            margin: 3px;
-            height: 80px;
-            width: 80px;
-            transition: border-color 0.3s ease;
-        }
+    /* เอาขีดสีน้ำเงินออกจากลิงก์ทั้งหมด */
+    a {
+        text-decoration: none; /* ลบขีดเส้นใต้จากลิงก์ */
+        color: inherit; /* ทำให้สีของลิงก์ไม่เปลี่ยนไป */
+    }
 
-        .header {
-            position: fixed;
-            top: 10px;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            z-index: 10;
-        }
+    .category {
+        display: none; /* ซ่อนหมวดหมู่ทั้งหมดเมื่อเริ่มต้น */
+        padding: 0px; /* ลบระยะขอบด้านใน */
+        margin: 0px auto; /* ตั้งระยะห่างในแนวนอนให้ศูนย์ */
+        max-width: 100%; /* ตั้งความกว้างสูงสุดให้พอดี */
+        background-color: transparent; /* ตั้งพื้นหลังให้โปร่งใส */
+    }
 
-        #alltv {
-            border: 2px solid lightblue;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-            height: 40px;
-            margin-top: 10px;
-            cursor: pointer;
-            font-size: 18px;
-            color: white;
-            font-weight: bold;
-            border-radius: 5px;
-            background: rgba(0, 0, 0, 0.5);
-            transition: border-color 0.3s ease;
-        }
+    h2 {
+        color: #87CEFA; /* ตั้งสีของข้อความหัวข้อเป็นสีฟ้า */
+        font-size: 2rem; /* ขนาดตัวอักษรของหัวข้อ */
+    }
 
-        #alltv:hover {
-            border-color: #ff5733;
-        }
+    /* กำหนดสไตล์สำหรับภาพช่องในหมวดหมู่ */
+    img.channel {
+        border-radius: 15px; /* ทำให้มุมของภาพช่องโค้ง */
+        border: 3px solid #87CEFA; /* ขอบสีฟ้ารอบๆ ภาพช่อง */
+        padding: 2px; /* เว้นระยะขอบในภาพ */
+        margin: 3px; /* เว้นระยะห่างระหว่างภาพช่อง */
+        height: 80px; /* กำหนดความสูงของภาพช่อง */
+        width: 80px; /* กำหนดความกว้างของภาพช่อง */
+        object-fit: contain; /* ทำให้ภาพปรับขนาดให้พอดีกับกรอบ โดยรักษาสัดส่วน */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* เพิ่มการเคลื่อนไหวและเงาเมื่อมีการ hover */
+    }
+
+    /* เมื่อเอาเมาส์ไปอยู่บนภาพช่อง (hover) */
+    img.channel:hover {
+        transform: scale(1.1); /* ขยายภาพเล็กน้อยเมื่อ hover */
+        box-shadow: 0 0 15px #87CEFA; /* เพิ่มเงารอบๆ ภาพ */
+    }
+
     </style>
+    <script>
+        // ฟังก์ชันเพื่อแสดงหมวดหมู่ที่เลือก
+        function showCategory(categoryId) {
+            // ซ่อนทุกหมวดหมู่ก่อน
+            document.querySelectorAll('.category').forEach(function(cat) {
+                cat.style.display = 'none'; /* ซ่อนหมวดหมู่ทั้งหมด */
+            });
+            // แสดงหมวดหมู่ที่เลือก
+            document.getElementById(categoryId).style.display = 'block'; /* แสดงหมวดหมู่ที่เลือก */
+        }
+
+        // ฟังก์ชันเพื่อแสดงหมวดหมู่ทั้งหมด
+        function showAllCategories() {
+            document.querySelectorAll('.category').forEach(function(cat) {
+                cat.style.display = 'block'; /* แสดงทุกหมวดหมู่ */
+                cat.style.marginBottom = '-10px'; /* ปรับระยะห่างด้านล่าง */
+                cat.style.padding = '-10px'; /* ปรับระยะห่างภายใน */
+            });
+        }
+    </script>
 </head>
 <body>
+    <h1>ALLTV</h1>
+    
+    <div id="menu">
+        <!-- เมนู FEER TV -->
+        <div>
+            <img src="https://e7.pngegg.com/pngimages/605/905/png-clipart-free-pic-web-design-label-thumbnail.png" alt="FEER TV" onclick="showCategory('sport')" title="FEER TV">
+            <p>FREE TV</p>
+        </div>
+        <!-- เมนู การ์ตูน -->
+        <div>
+            <img src="https://www.pngarts.com/files/10/Cartoon-PNG-Background-Image.png" alt="การ์ตูน" onclick="showCategory('การ์ตูน')" title="การ์ตูน">
+            <p>การ์ตูน</p>
+        </div>
+        <!-- เมนู กีฬา -->
+        <div>
+            <img src="https://static.vecteezy.com/system/resources/previews/023/477/419/non_2x/ai-generative-collection-of-sports-equipment-commonly-sold-at-a-supermarket-circle-label-for-a-sports-goods-free-png.png" alt="กีฬา" onclick="showCategory('sports')" title="กีฬา">
+            <p>กีฬา</p>
+        </div>
+        <!-- เมนู Movie -->
+        <div>
+            <img src="https://img.freepik.com/free-vector/cinema-realistic-set_1284-4674.jpg?semt=ais_hybrid" alt="รายการทีวี" onclick="showCategory('tvshows')" title="รายการทีวี">
+            <p>Movie</p>
+        </div>
+        <!-- เมนู สารคดี -->
+        <div>
+            <img src="https://e7.pngegg.com/pngimages/755/361/png-clipart-discovery-inc-discovery-channel-tlc-television-channel-television-globe.png" alt="สารคดี" onclick="showCategory('menu5')" title="สารคดี">
+            <p>สารคดี</p>
+        </div>
+        <!-- เมนู รวม -->
+        <div>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8Gh5qbMm2VGA7nJ5-f5NuUfsOmUNyo1ECh3n1tuB60DqajpUSq675b88&s=10" alt="รวม" onclick="showAllCategories()" title="รวม">
+            <p>รวม</p>
+        </div>
+    </div>
 
-<p id="alltv">
-  <b id="alltvText" style="color: lightblue;">ALLTV</b>
-</p>
+<!-- หมวดหมู่ กีฬา -->
+    <div id="sport" class="category">
+<h2>"FREE TV"</h2>
 
-<div class="button-container">
-    <button class="button" id="toggleBg">
-        <img class="icon" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9BXCHtvEtdJG8J1ApbEnbIqZ58ICRKhg9bA&usqp=CAU" alt="Toggle Background">
-    </button>
-    <input type="file" id="bgInput" class="file-input" accept="image/*">
-    <button class="button" onclick="document.getElementById('bgInput').click()">
-        <img class="icon" src="https://img.icons8.com/ios-filled/50/ffffff/image.png" alt="Select Background">
-    </button>
-    <button class="button" id="changeBorder">
-        <img class="icon" src="https://img.lovepik.com/element/40030/4628.png_300.png" alt="Change Border">
-    </button>
-</div>
-
-
-
-<p><b> หนังใหม่่ ทีวีย้อนหลัง </b></p>
-<img class="channel" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTttYbds0y3rit9kEb0A5b2L2sKQlVrs1MOAxR9quaf_Bs98TYRiLtHWik&s=10" alt="" 
-     onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';
-     alt="Open T2" 
-     onclick="openT2()" 
-     onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';">
-     
-<img class="channel" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrq4MOCe-SrczTmE8GuCAbkSjFYSPOunye3w&s" alt="" 
-     onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';
-     alt="Open T3" 
-     onclick="openT3()" 
-     onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';">
-
-
-
-
-<p><b> FREE TV </b></p>
-
-<a href="intent://cdn-edge-ott.prd.go.th/live_vlc/smil:c30f-97f7-c767-ca64-98aa.smil/chunklist_w1579257356_b2128000.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://upload.wikimedia.org/wikipedia/commons/9/9d/NBT_Logo.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://thaipbs-live.cdn.byteark.com/live/playlist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/0014.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://thaipbs-ujxrch.cdn.byteark.com/live/playlist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/ALTV.PNG" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://inwiptv.com/player_demo.php?channel=27190#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon//ch5new.logo.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://inwiptv.com/player_demo.php?channel=27186#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<a href="intent://edge2a.v2h-cdn.com/hd_3/hd3.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://dl.dropbox.com/scl/fi/rxi1br1cx0ggqtxpqbugf/ch3.jpg?rlkey=s3hii4ftjnzfdgio3w8jcti13&dl=0" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/tv5hd/tv5hd.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://dl.dropbox.com/scl/fi/xnbbxk18bd1r0te717p0h/ch5.jpg?rlkey=92s6fl47pfshtyufdhqjfiak2&dl=1" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/hd_7/hd7.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://dl.dropbox.com/scl/fi/yv0bl8dula2izq1npm91c/ch7.jpg?rlkey=ybzzge1b8y6t76tt59hualybn&dl=0" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/mcothd/mcothd.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://dl.dropbox.com/scl/fi/yjwqri3mtellt8e21c2c2/mcot.png?rlkey=t88zbm4u4cmnu4a5a3utju2lr&dl=0" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/tpbs/tpbs.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://dl.dropbox.com/scl/fi/6lw4ttw52ii88dt7iqjxg/thai-pbs.png?rlkey=of6se9ikndyesvjqq0qpdzw4y&dl=0" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/tnn24/tnn24.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://dl.dropbox.com/scl/fi/0igcaq9cgq7jmj06gdabo/tnn16.png?rlkey=k08gl5dzkygebtxpxb4uqsjwk&dl=0" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/nation_1/nation_1.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://dl.dropbox.com/scl/fi/7vlc746t6f1wjm4587g1z/nation.png?rlkey=ce9z7x3111mir1g1o4yrga4v6&dl=0" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/hd_pptv/hd_pptv.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://www.dropbox.com/scl/fi/wk8iimbshewell7cv8wgt/pptv.png?rlkey=rwwt3d1utqqaoasigyeo50x7u&dl=1" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/hd_amarin/hdamarin.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://www.dropbox.com/scl/fi/yxbch6s3okl3k38gpfcfz/amarin.png?rlkey=l9t1clq2p59puhdeaeoanj8eg&dl=1" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/hd_thairath/hd_thairath.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://www.dropbox.com/scl/fi/qx6k7mvqvm6ougooai2vy/thairath.png?rlkey=pcr7sc1lf6cdf3x2zbhd9iv4u&dl=1" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/tv5hd/tv5hd.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
 <img class="channel" src="https://www.dropbox.com/scl/fi/n839k0a40o6o781gm0ttv/Tsport-7.jpg?rlkey=xv7hvuanyxjeszstnwqxriur7&dl=1" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://tv-live.tpchannel.org/live/tv_720p.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://cms.dmpcdn.com/livetv/2023/11/22/2a4de600-8919-11ee-8416-3dc6bea66698_webp_original.webp" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://inwiptv.com/player_demo.php?channel=27179#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://cms.dmpcdn.com/livetv/2023/10/02/75023d90-60f1-11ee-935a-5d4eba985103_webp_original.webp" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://inwiptv.com/player_demo.php?channel=27165#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/JKN18.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://nationtv-1jdcjo.cdn.byteark.com/fleetstream/nationtvlive/index.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0021.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://inwiptv.com/player_demo.php?channel=27159#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon//0015_R.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://inwiptv.com/player_demo.php?channel=27156#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0054.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://inwiptv.com/player_demo.php?channel=27153#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0019.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://inwiptv.com/player_demo.php?channel=27147#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon//0006.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a
- href="intent://streaming.monomax.me/Mono29LiveStream/ngrp:myStream_all/chunklist_b6628000.m3u8
-#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=KTV;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0016.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://inwiptv.com/player_demo.php?channel=27141#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/MCOT_new.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://inwiptv.com/player_demo.php?channel=27140#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://assets.oned.net/3/logo_one31.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://inwiptv.com/player_demo.php?channel=27138#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0013_R.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://inwiptv.com/player_demo.php?channel=27137#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/LOGO3HD.PNG" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent:
-//inwiptv.com/player_demo.php?channel=27135
-#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src=
-"https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/AmarinTV_NEW512.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-
-<a href="intent://live-cdn-hwc.ch7.com/livech7hd/HD.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://static.ch7.com/images/theme2019/icon/ic_logo_ch7hd.png?a=1",  "url": "https://live-cdn-hwc.ch7.com/livech7hd/HD.m3u8" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://dookeela.live/live-tv/pptv#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/R_0022.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://n-edge-1-th.v2h-cdn.com/thaiban/thaiban/playlist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://media-mvtv-app.imgix.net/channel/35_y_V2hcyg7xD4BpCIPSJT0un8zWYL6bAqfi.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/jkn18/jkn18.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://www.dropbox.com/scl/fi/nob4z91a8izetu559p6nr/jkn18.png?rlkey=09alneawk5k4wthujnjt0aapf&dl=1" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/hd_workpoint/hd_workpoint.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://www.dropbox.com/scl/fi/1wf5y2k1324hrpkp25ea9/workpoint.png?rlkey=t35ri7nz9zxxhl9boivewyr5c&dl=1" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/true4u/true4u.stream/playlist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://www.dropbox.com/scl/fi/csmn80vi91blulryb740i/true4u.png?rlkey=zmv1cfjv2j9z1h102gj0ug5w0&dl=1" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/gmm25/gmm25.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://www.dropbox.com/scl/fi/26tdy5ofzsb7wa8mpv4ie/gmm25.png?rlkey=9c4ja2xbtpuonh0ltuokuvqne&dl=1" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/ch8/ch8.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://www.dropbox.com/scl/fi/36v31gd7ujbqojv76u8tg/ch8.png?rlkey=d4h2agfjntg1noqwhppp78jp6&dl=1" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/mono/mono.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://www.dropbox.com/scl/fi/xmwuozh44ucp3mwasqpjm/mono29.png?rlkey=4mm0jmtd73qq9tgcheozvc512&dl=1" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://edge2a.v2h-cdn.com/hd_one/hd_one.stream/chunklist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://www.dropbox.com/scl/fi/k499w9wbh49328vwzaae9/one.png?rlkey=858soug0v54hubzbcv9vua7bu&dl=1" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://server1.streamssl.com/stream/news1_mid.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://www.dropbox.com/scl/fi/54pn5g42m9ppucg2nw3jy/news1.png?rlkey=5j5kgq3a2bd0pwlb4bh540yal&dl=1" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://live.topnews.co.th/hls/topnews_a_720.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://www.dropbox.com/scl/fi/wcr2evwd7hukfqvsljokv/topnews.png?rlkey=zl8uq2ms3oe5plsdbza27zr0s&dl=1" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 <a href="intent://cdn-edge-ott.prd.go.th/live_vlc/smil:bfe6-faf5-827f-6228-2aa1.smil/chunklist_w695610859_b2128000.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
 <img class="channel" src="https://thumbor-ott.prd.go.th/unsafe/360x360/https%3A%2F%2Fcms-backend-ott.prd.go.th%2Fimages%2Fupload%2F1680683209698.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 <a href="intent://cdn-edge-ott.prd.go.th/live_vlc/smil:406a-211e-df39-045c-4048.smil/chunklist_w1186889088_b2128000.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
@@ -195,35 +206,7 @@
 <img class="channel" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTB9dtvkaWAB1sGidV3zlIHSJas9lZkqOyEgg&s alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 
 
-
-<p><b> การ์ตูน </b></p>
-<a href="intent://dookeela.live/live-tv/boomerang#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://cms-mvtv-app-v2.v2h-cdn.com:8001/uploads/channel/153_x_SzQKXykmul5cOFUaMhvC1nfLR4YNpg9H.jpg" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://inwiptv.com/player_demo.php?channel=89780#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://img.inwiptv.net/postor/20200512162950fw teletoon(1).jpg" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://dookeela.live/live-tv/dreamworks#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://dookeela.live/uploads/1723200736.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://dookeela.live/live-tv/cartoon-network#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE///channelicon//0171.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://dookeela.live/live-tv/nickjr#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/Nickjr_2024.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://dookeela.live/live-tv/nickelodeon#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/LOGO_Nickelodeon2.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://dookeela.live/live-tv/truesparkplay#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/01/16/cdd2cd90-b44d-11ee-bbdb-077300b4f5a1_webp_original.webp" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://dookeela.live/live-tv/cartoonito#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon//Cartoonito.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://amg00627-amg00627c30-rakuten-es-3990.playouts.now.amagi.tv/playlist/amg00627-banijayfast-mrbeanescc-rakutenes/playlist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://i.postimg.cc/yWqNWZf5/Mr-Bean.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://odm391.xyz:80/44H23TZ/455GLBX5V5VPG1K/74840#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=http://45.144.165.223;scheme=http;type=video/mp4;end">
-<img class="channel" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCT27Zu2Htw9q1bkaODsjCwloq6xLhfIKSfPMUV2-vOhITK8rU345GmNQ&s=10 alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-
-<a href="intent://ibys.xyz:80/jorgefont/y8949CSGY2U6/95693#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=http://45.144.165.223;scheme=http;type=video/mp4;end">
-<img class="channel" src="https://m.media-amazon.com/images/M/MV5BNTU2OWE0YWYtMjRlMS00NTUwLWJmZWUtODFhNzJiMGJlMzI3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg';"></a>
-
-
-
-<p><b> กีฬา </b></p>
+<!--
 
 
 
@@ -232,11 +215,72 @@
 
 
 
+<a href="intent://cdn-edge-ott.prd.go.th/live_vlc/smil:c30f-97f7-c767-ca64-98aa.smil/chunklist_w1579257356_b2128000.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://upload.wikimedia.org/wikipedia/commons/9/9d/NBT_Logo.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://thaipbs-live.cdn.byteark.com/live/playlist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/0014.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://thaipbs-ujxrch.cdn.byteark.com/live/playlist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/ALTV.PNG" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://www.inwiptv.com/player_demo.php?channel=27190#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon//ch5new.logo.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://www.inwiptv.com/player_demo.php?channel=27186#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://www.dropbox.com/scl/fi/n839k0a40o6o781gm0ttv/Tsport-7.jpg?rlkey=xv7hvuanyxjeszstnwqxriur7&dl=1" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://tv-live.tpchannel.org/live/tv_720p.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://cms.dmpcdn.com/livetv/2023/11/22/2a4de600-8919-11ee-8416-3dc6bea66698_webp_original.webp" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://www.inwiptv.com/player_demo.php?channel=27179#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://cms.dmpcdn.com/livetv/2023/10/02/75023d90-60f1-11ee-935a-5d4eba985103_webp_original.webp" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://www.inwiptv.com/player_demo.php?channel=27165#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/JKN18.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://nationtv-1jdcjo.cdn.byteark.com/fleetstream/nationtvlive/index.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0021.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://www.inwiptv.com/player_demo.php?channel=27159#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon//0015_R.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://www.inwiptv.com/player_demo.php?channel=27156#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0054.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://www.inwiptv.com/player_demo.php?channel=27153#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0019.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://www.inwiptv.com/player_demo.php?channel=27147#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon//0006.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a
+ href="intent://streaming.monomax.me/Mono29LiveStream/ngrp:myStream_all/chunklist_b6628000.m3u8
+#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=KTV;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0016.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://www.inwiptv.com/player_demo.php?channel=27141#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/MCOT_new.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://www.inwiptv.com/player_demo.php?channel=27140#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://assets.oned.net/3/logo_one31.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://www.inwiptv.com/player_demo.php?channel=27138#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0013_R.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://ch3-33-web.cdn.byteark.com:443/live/playlist_720p/index.m3u8?x_ark_access_id=D78MkxZFEr5Zr9PE&x_ark_auth_type=ark-v2&x_ark_expires=1743026702&x_ark_max_resolution=720p&x_ark_path_prefix=/live/&x_ark_signature=MMbYTuK1lomHEvU3p60WGg
+#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/LOGO3HD.PNG" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 
-<a href="intent://45.144.165.223/city-liverpool.html?fbclid=IwY2xjawIoWbpleHRuA2FlbQIxMQABHTj8VMiFdtD8IMzkL1qKsrlG1A5mCo1pKcNESuvQ8RI4UrhuXvDaa9ulsQ_aem_o1XpUV-gDYS5w-JHFxzOGA#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Liverpool%20Live;S.referer=;scheme=http;type=video/mp4;end">
-<img class="channel"src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdn5cxkscld7r0ESSshOmsa2W29EtvGUqWAonVdgNl-f4k02D74jGEVE8&s=10?rlkey=o0nbk82n3bpqil97lg8vhp6k2&dl=1"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://inwiptv.com/player_demo.php?channel=27137#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://dookeela.live//;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/LOGO3HD.PNG" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 
-<a href="intent://cdn2.googlecdnforstreaming.live/vvipscore/epl1_sd/chunks.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://https://vvipscore.co//;scheme=https;type=video/mp4;end">
+<a href="intent:
+//www.inwiptv.com/player_demo.php?channel=27135
+#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src=
+"https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/AmarinTV_NEW512.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+
+<a href="intent://live-cdn-hwc.ch7.com/livech7hd/HD.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://static.ch7.com/images/theme2019/icon/ic_logo_ch7hd.png?a=1",  "url": "https://live-cdn-hwc.ch7.com/livech7hd/HD.m3u8" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://dookeela.live/live-tv/pptv#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/R_0022.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://n-edge-1-th.v2h-cdn.com/thaiban/thaiban/playlist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://media-mvtv-app.imgix.net/channel/35_y_V2hcyg7xD4BpCIPSJT0un8zWYL6bAqfi.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+
+-->
+
+
+
+
+        
+    </div>
+    <div id="sports" class="category">
+        <h2>กีฬา</h2>
+        <a href="intent://cdn2.googlecdnforstreaming.live/vvipscore/epl1_sd/chunks.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://https://vvipscore.co//;scheme=https;type=video/mp4;end">
 <img class="channel"src="https://www.dropbox.com/scl/fi/m39ntjxh0s3b4vilskmfc/epl1.png?rlkey=o0nbk82n3bpqil97lg8vhp6k2&dl=1"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 
 <a href="intent://cdn1.googlecdn.live/4k/epl1_sd/playlist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://https://dookeela.live//;scheme=https;type=video/mp4;end">
@@ -343,74 +387,30 @@
 
 
 
-<a href="intent://cdn1.googlecdnforstreaming.live/live/trueballthai1/chunks.m3u8
-#Intent;package=com.wiseplay;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=Chaiwad IPTV;scheme=https;type=video/mp4;end">
-
+<a href="intent://cdn1.googlecdnforstreaming.live/live/trueballthai1/chunks.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=KTV;scheme=https;type=video/mp4;end">
 <img class="channel" src="https://cms.dmpcdn.com/livetv/2023/08/02/89262f60-30e1-11ee-b445-3703761d6f4d_webp_original.webp"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-
-
-
-<a href="intent://goal-th.com/%E0%B8%94%E0%B8%B9%E0%B8%9A%E0%B8%AD%E0%B8%A5%E0%B8%AA%E0%B8%94/?id=313356&team=Atlanta-vs-Brown+DE+Adrogue
-#Intent;package=com.wiseplay;S.referer=https://goal-th.com/&userAgent=exo_player;S.title=Chaiwad IPTV;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://cms.dmpcdn.com/livetv/2023/08/02/8a0c49a0-30e1-11ee-b220-4544ede97b74_webp_original.webp" border="1px"></a>
-<a href="intent://cdn1.googlecdnforstreaming.live/live/trueballthai2/chunks.m3u8
-#Intent;package=com.wiseplay;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=Chaiwad IPTV;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://cms.dmpcdn.com/livetv/2023/08/02/8a0c49a0-30e1-11ee-b220-4544ede97b74_webp_original.webp"></a>
-<a href="intent://goal-th.com/%E0%B8%94%E0%B8%B9%E0%B8%9A%E0%B8%AD%E0%B8%A5%E0%B8%AA%E0%B8%94/?id=313355&team=Atlanta-vs-Brown+DE+Adrogue
-#Intent;package=com.wiseplay;S.referer=https://goal-th.com/&userAgent=exo_player;S.title=Chaiwad IPTV;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://cms.dmpcdn.com/livetv/2023/08/02/8a3b21d0-30e1-11ee-a53e-b3f87dc8ba1e_webp_original.webp" border="1px"></a>
-<a href="intent://cdn1.googlecdnforstreaming.live/live/trueballthai3/chunks.m3u8
-#Intent;package=com.wiseplay;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=Chaiwad IPTV;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/02/01/e3adbba0-c0ed-11ee-9f09-d517c2f32137_webp_original.webp" border="1px"></a>
-<a href="intent://dookeela.live/football/match/325144
-#Intent;package=com.wiseplay;S.referer=dookeela.live/&userAgent=exo_player;S.title=Chaiwad IPTV;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/02/01/e3adbba0-c0ed-11ee-9f09-d517c2f32137_webp_original.webp" border="1px"></a>
-
-<a href="intent://cdn1.googlecdnforstreaming.live/live/trueballthai5/chunks.m3u8
-#Intent;package=com.wiseplay;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=Chaiwad IPTV;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/08/14/df6a7110-5a16-11ef-ae6e-398d852551da_webp_original.webp" border="1px"></a>
-<a href="intent://cdn1.googlecdnforstreaming.live/live/trueballthai6/chunks.m3u8
-#Intent;package=com.wiseplay;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=Chaiwad IPTV;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/08/14/e0a6c1a0-5a16-11ef-8743-87a41cdc0568_webp_original.webp" border="1px"></a>
-
-<a href="intent://cdn1.googlecdnforstreaming.live/live/trueballthai7/chunks.m3u8
-#Intent;package=com.wiseplay;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=Chaiwad IPTV;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/08/14/e1334a30-5a16-11ef-9c43-a93aeb33b0e5_webp_original.webp" border="1px"></a>
-<a href="intent://cdn1.googlecdnforstreaming.live/live/trueballthai8/chunks.m3u8
-#Intent;package=com.wiseplay;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=Chaiwad IPTV;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/08/14/e1c15960-5a16-11ef-9de9-af1b25c2ed4f_webp_original.webp" border="1px"></a>
-<a href="intent://cdn1.googlecdnforstreaming.live/live/trueballthai9/chunks.m3u8
-#Intent;package=com.wiseplay;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=Chaiwad IPTV;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/08/14/e2346680-5a16-11ef-8c60-b76aa0302695_webp_original.webp" border="1px"></a>
-<a href="intent://cdn1.googlecdnforstreaming.live/live/trueballthai10/chunks.m3u8
-#Intent;package=com.wiseplay;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=Chaiwad IPTV;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/08/14/e249c340-5a16-11ef-a30f-0d36085b5b8b_webp_original.webp" border="1px"></a>
-<!--
-<a href="intent://cdn1.googlecdn.live/dooballx/trueballthai5/chunks.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https:dooballx.com/;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://www.dropbox.com/scl/fi/hfy2vpopol2plk0bg11fd/trueballthai-5.png?rlkey=b8pw540eehq7a9r0g01wvxxuq&dl=1"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://cdn1.googlecdn.live/dooballx/trueballthai6/chunks.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https:dooballx.com/;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://www.dropbox.com/scl/fi/xmxuil38v3vtd55i31aqa/trueballthai-6.png?rlkey=w55rcn5py4smp1ndyr6wpzbwf&dl=1"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://cdn1.googlecdn.live/dooballx/trueballthai7/chunks.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https:dooballx.com/;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://www.dropbox.com/scl/fi/v3p7g5k043zbougnxdwmm/trueballthai-7.png?rlkey=3u3a65zu2sruel9nuf6br5jse&dl=1"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://cdn1.googlecdn.live/dooballx/trueballthai8/chunks.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https:dooballx.com/;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://www.dropbox.com/scl/fi/v3p7g5k043zbougnxdwmm/trueballthai-7.png?rlkey=3u3a65zu2sruel9nuf6br5jse&dl=1"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-
-
-<a intent://cdn1.googlecdn.live/4k/trueballthai8/chunks.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://dookeela.live/;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://www.dropbox.com/scl/fi/xo57pzrsw14fd9wf2e3pc/trueballthai-9.png?rlkey=uvbrbfkor4mqkfv1atbohsfex&dl=1"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
--->
-
-<a href="intent://1815337252.rsc.cdn77.org/HLS/CORNHOLETV.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRILdCX9cbmTtQ2GJMlcs3VuH4cgIBub1gOKg&s" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://d2p372oxiwmcn1.cloudfront.net/hls/1080p/playlist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://https://vvipscore.co//;scheme=https;type=video/mp4;end">
-<img class="channel"src="https://raw.githubusercontent.com/pantip789/test/main/uploads/compressed_1734185332862.png?rlkey=o0nbk82n3bpqil97lg8vhp6k2&dl=1"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-
-<a href="intent://1tv41.icu:8080/live/4842640762/oquendo71773@gmail.com/146291.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://http://vvipscore.co//;scheme=http;type=video/mp4;end">
-<img class="channel"src="https://seeklogo.com/images/U/ufc-logo-25A796E80A-seeklogo.com.png"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-
-
-<a href="intent://1tv41.icu:8080/live/4842640762/oquendo71773@gmail.com/146293.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://https://vvipscore.co//;scheme=http;type=video/mp4;end">
-<img class="channel"src="https://seeklogo.com/images/U/ufc-logo-25A796E80A-seeklogo.com.png"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://goal-th.com/%E0%B8%94%E0%B8%B9%E0%B8%9A%E0%B8%AD%E0%B8%A5%E0%B8%AA%E0%B8%94/?id=313356&team=Atlanta-vs-Brown+DE+Adrogue#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://goal-th.com/&userAgent=exo_player;S.title=KTV;scheme=https;type=video/mp4;end">
+<img class="channel" src="http://cms.dmpcdn.com/livetv/2023/08/02/8a0c49a0-30e1-11ee-b220-4544ede97b74_webp_original.webp"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://cdn1.googlecdnforstreaming.live/live/trueballthai2/chunks.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=KTV;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://cms.dmpcdn.com/livetv/2023/08/02/8a0c49a0-30e1-11ee-b220-4544ede97b74_webp_original.webp"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://goal-th.com/%E0%B8%94%E0%B8%B9%E0%B8%9A%E0%B8%AD%E0%B8%A5%E0%B8%AA%E0%B8%94/?id=313355&team=Atlanta-vs-Brown+DE+Adrogue#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://goal-th.com/&userAgent=exo_player;S.title=KTV;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://cms.dmpcdn.com/livetv/2023/08/02/8a3b21d0-30e1-11ee-a53e-b3f87dc8ba1e_webp_original.webp"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://intent://cdn1.googlecdnforstreaming.live/live/trueballthai3/chunks.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=KTV;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/02/01/e3adbba0-c0ed-11ee-9f09-d517c2f32137_webp_original.webp"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://dookeela.live/football/match/325144#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://dookeela.live/&userAgent=exo_player;S.title=KTV;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/02/01/e3adbba0-c0ed-11ee-9f09-d517c2f32137_webp_original.webp"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://intent://cdn1.googlecdnforstreaming.live/live/trueballthai5/chunks.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=KTV;scheme=https;type=video/mp4;end">
+<img class="channel" src="http://cms.dmpcdn.com/livetv/2024/08/14/df6a7110-5a16-11ef-ae6e-398d852551da_webp_original.webp"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://cdn1.googlecdnforstreaming.live/live/trueballthai6/chunks.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=KTV;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/08/14/e0a6c1a0-5a16-11ef-8743-87a41cdc0568_webp_original.webp"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://cdn1.googlecdnforstreaming.live/live/trueballthai7/chunks.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=KTV;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/08/14/e0a6c1a0-5a16-11ef-8743-87a41cdc0568_webp_original.webp"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://cdn1.googlecdnforstreaming.live/live/trueballthai8/chunks.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=KTV;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/08/14/e1c15960-5a16-11ef-9de9-af1b25c2ed4f_webp_original.webp"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://cdn1.googlecdnforstreaming.live/live/trueballthai9/chunks.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=KTV;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/08/14/e2346680-5a16-11ef-8c60-b76aa0302695_webp_original.webp"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://cdn1.googlecdnforstreaming.live/live/trueballthai10/chunks.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https://warpdooball.net/&userAgent=exo_player;S.title=KTV;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/08/14/e249c340-5a16-11ef-a30f-0d36085b5b8b_webp_original.webp"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 
 
 
@@ -421,9 +421,54 @@
 
 
 
-<p><b> Movie Channel </b></p>
 
-<a href="intent://cdn-th-vip.login.in.th/ch8/ch8/playlist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+        
+
+    <!-- หมวดหมู่ หนัง -->
+    <div id="การ์ตูน" class="category">
+        <h2>การ์ตูน</h2>
+        <a href="intent://dookeela.live/live-tv/boomerang#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://cms-mvtv-app-v2.v2h-cdn.com:8001/uploads/channel/153_x_SzQKXykmul5cOFUaMhvC1nfLR4YNpg9H.jpg" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://inwiptv.com/player_demo.php?channel=89780#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://img.inwiptv.net/postor/20200512162950fw teletoon(1).jpg" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://dookeela.live/live-tv/dreamworks#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://dookeela.live/uploads/1723200736.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://dookeela.live/live-tv/cartoon-network#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE///channelicon//0171.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://dookeela.live/live-tv/nickjr#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/Nickjr_2024.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://dookeela.live/live-tv/nickelodeon#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/LOGO_Nickelodeon2.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://dookeela.live/live-tv/truesparkplay#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://cms.dmpcdn.com/livetv/2024/01/16/cdd2cd90-b44d-11ee-bbdb-077300b4f5a1_webp_original.webp" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://dookeela.live/live-tv/cartoonito#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon//Cartoonito.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<a href="intent://amg00627-amg00627c30-rakuten-es-3990.playouts.now.amagi.tv/playlist/amg00627-banijayfast-mrbeanescc-rakutenes/playlist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://i.postimg.cc/yWqNWZf5/Mr-Bean.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+    </div>
+
+    <!-- หมวดหมู่ รายการทีวี -->
+    <div id="tvshows" class="category">
+        <h2> Movie </h2>
+        <a href="intent://cdn-th-vip.login.in.th/ch8/ch8/playlist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
 <img class="channel" src="https://www.tvjaa.com/storage/tv-channels/channel8thailand.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 
 <a href="intent://dookeela.live/live-tv/hbo##Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
@@ -460,7 +505,8 @@
 <a href="intent://inwiptv.com/player_demo.php?channel=94898#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
 <img class="channel" src="https://img.inwiptv.net/postor/20200512165346fwsov.jpg" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 
-
+<a href="intent://live.cool-channel.com/cool/live-720P.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://cool-channel.com/wp-content/uploads/2022/11/Logo-Final-03-10-59.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 <a href="intent://49.0.87.24:1936/HDDragon/Dragon/playlist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
 <img class="channel" src="https://www.img04.xyz/assets/img/ch_logo/MANGORN.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 
@@ -468,10 +514,14 @@
 <img class="channel" src="https://media-mvtv-app.imgix.net/uploads/channel/36_x_wEfgYVBHLrQSiDF8K3kx1auP4yUR2AO7.jpg" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 <a href="intent://n-edge-1-th.v2h-cdn.com/tvb_m/tvb_thai/playlist.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
 <img class="channel" src="https://media-mvtv-app.imgix.net/uploads/channel/89_x_2CkFD4GRmKxdOP0W3T7cuvrMVQs5ypj6.jpg" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+
+<!--
+<a href="intent://cdn6.goprimetime.info/feed/eI5rczhSQpWBcgOtqRLNWw/LC5/index.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
+<img class="channel" src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a3/7flix_logo_2020.svg/440px-7flix_logo_2020.svg.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+
+-->
 <a href="intent://dookeela.live/live-tv/mono29plus##Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
 <img class="channel" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIV9v3X3-f227MK0xd_KfFm3h1YeCY3Wi6k0lGxf6fwHR8aON1qdr99iOh&s=10;"></a>
-
-
 <a href="intent://dookeela.live/live-tv/3bbasian##Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
 <img class="channel" src="https://dookeela.live/uploads/1703829940.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 <a href="intent://d35j504z0x2vu2.cloudfront.net/v1/manifest/0bc8e8376bd8417a1b6761138aa41c26c7309312/bollywood-classic/c7980632-505b-4c77-9bd6-cb904c9d3a98/1.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
@@ -485,18 +535,18 @@
 <a href="intent://dookeela.live/live-tv/rock-entertainment#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
 <img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/Rock-Entertainment.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 <a href="intent://live.cool-channel.com/cool/live-720P.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
-<img class="channel" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw-ejcvIX3fSRdvw5jLj1j5jg_85GIyUvf9Q&s" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+<img class="channel" src="https://cool-channel.com/wp-content/uploads/2022/11/Logo-Final-03-10-59.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
+</div>
 
 
-
-<p><b> สารคดี </b></p>
-
-
+ <div id="menu5" class="category">
+        <h2> สารคดี </h2>
+        
 <a href="intent://dookeela.live/live-tv/history#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https:playInNatPlayer/;scheme=https;type=video/mp4;end">
 <img class="channel" src="https://www.img03.xyz/assets/img/ch_logo/hd-history.png"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 <a href="intent://dookeela.live/live-tv/animal-planet#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https:playInNatPlayer/;scheme=https;type=video/mp4;end">
 <img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon//AnimalPlanet.png"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<a href="intent://nhkworld-tv.akamaized.net/hls/live/2115640/nhkworld-tv/index_1M.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https:playInNatPlayer/;scheme=https;type=video/mp4;end">
+<a href="intent:/nhkworld-tv.akamaized.net/hls/live/2115640/nhkworld-tv/index_1M.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https:playInNatPlayer/;scheme=https;type=video/mp4;end">
 <img class="channel" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/NHK_World.svg/1024px-NHK_World.svg.png"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 <a href="intent://inwiptv.com/player_demo.php?channel=91303#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=https:playInNatPlayer/;scheme=https;type=video/mp4;end">
 <img class="channel" src="https://img.inwiptv.net/postor/20240617204638FWDoc.jpg"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
@@ -530,98 +580,20 @@
 <img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/0162.png"alt="onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
 <a href="intent://dookeela.live/live-tv/afn#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=;scheme=https;type=video/mp4;end">
 <img class="channel" src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon//R3_0161.png" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>
-<!--
-    <a href="intent://45.144.165.223/tvhung677uvd33567uvde3zfu8kk9iy44rtgd4t%20-%20%E0%B8%AA%E0%B8%B3%E0%B9%80%E0%B8%99%E0%B8%B2/etjetjthecaaxwwfcGytcwvcsszcrwxni7e1/444vhbijnibtcezqzxfvjmkpmhgrcrr/5t55ttgggmmcssdrgyjjunollpkinhgsawad4f/ddde4jgk5icixkzwkKqkxei2isoqooxovtooqo21ocxxxx45yckkxkwertyui6kccvvgfkdiwk2kskxktoxlzz9993(55)$$@99.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=http://45.144.165.223;scheme=http;type=video/mp4;end">
-<img class="channel" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTccHSgXy0EnDdrkuvOdncVzxTwC8RsmxUw1bzwASpSm90Lhmyd37MNIhE&s=10" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a> 
-
-<a href="intent://45.144.165.223/tvhung677uvd33567uvde3zfu8kk9iy44rtgd4t%20-%20%E0%B8%AA%E0%B8%B3%E0%B9%80%E0%B8%99%E0%B8%B2/etjetjthecaaxwwfcGytcwvcsszcrwxni7e1/444vhbijnibtcezqzxfvjmkpmhgrcrr/5t55ttgggmmcssdrgyjjunollpkinhgsawad4f/ddde4jgk5icixkzwkKqkxei2isoqooxovtooqo21ocxxxx45yckkxkwertyui6kccvvgfkdiwk2kskxktoxlzz9993(55)$$@99.m3u8#Intent;package=com.wiseplay;S.userAgent=exo_player;S.title=Live%20Program;S.referer=http://45.144.165.223;scheme=http;type=video/mp4;end">
-<img class="channel" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTccHSgXy0EnDdrkuvOdncVzxTwC8RsmxUw1bzwASpSm90Lhmyd37MNIhE&s=10" alt="" onerror="this.onerror=null; this.src='https://as2.ftcdn.net/jpg/03/53/54/91/1000_F_353549130_ahtWCQjjJzhzP8ocg1qR3s2E3Cz1VR3w.jpg';"></a>   
-
--->
 
 
-<script>
-    let backgroundActive = true;  // ใช้ตัวแปรนี้เพื่อเปิด/ปิดการแสดงพื้นหลัง
 
-    document.addEventListener("DOMContentLoaded", function () {
-        let savedBorderColor = localStorage.getItem("channelBorderColor");
-        if (savedBorderColor) {
-            document.querySelectorAll(".channel").forEach(img => {
-                img.style.borderColor = savedBorderColor;
-            });
-        }
 
-        let savedBackground = localStorage.getItem("backgroundImage");
-        if (savedBackground) {
-            document.body.style.backgroundImage = `url(${savedBackground})`;
-        }
-    });
 
-    function changeBorderColor() {
-        let colors = [
-            "#FF5733", "#33FF57", "#3357FF", "#FF33A8", "#A833FF",
-            "#33FFF5", "#F5FF33", "#FF8C33", "#8C33FF", "#33FF8C",
-            "#FF3366", "#66FF33", "#3366FF", "#FFFF33", "#FF33FF"
-        ];
-        let randomColor = colors[Math.floor(Math.random() * colors.length)];
+    </div>
 
-        document.querySelectorAll(".channel").forEach(img => {
-            img.style.borderColor = randomColor;
-        });
-
-        localStorage.setItem("channelBorderColor", randomColor);  // บันทึกสีขอบ
-    }
-
-    function changeBackground() {
-        let bgInput = document.getElementById("bgInput");
-        if (bgInput.files && bgInput.files[0]) {
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                document.body.style.backgroundImage = `url(${e.target.result})`;
-                localStorage.setItem("backgroundImage", e.target.result);  // บันทึกพื้นหลัง
-            };
-            reader.readAsDataURL(bgInput.files[0]);
-        }
-    }
-
-    // ฟังก์ชันเปิด/ปิดพื้นหลัง
-    document.getElementById("toggleBg").addEventListener("click", function () {
-        if (backgroundActive) {
-            // ซ่อนพื้นหลัง (ไม่ให้เลือกรูปใหม่)
-            document.body.style.backgroundImage = "";
-        } else {
-            // ใช้พื้นหลังที่เคยบันทึก
-            let savedBackground = localStorage.getItem("backgroundImage");
-            if (savedBackground) {
-                document.body.style.backgroundImage = `url(${savedBackground})`;
-            }
-        }
-        backgroundActive = !backgroundActive;  // สลับสถานะเปิด/ปิด
-    });
-
-    document.getElementById("alltv").addEventListener("click", changeBorderColor);
-    document.getElementById("changeBorder").addEventListener("click", changeBorderColor);
-
-    // ไม่ให้เปิดการเลือกไฟล์เมื่อกดปุ่ม toggleBg
-    document.getElementById("bgInput").addEventListener("change", changeBackground);
-    
-    
-    
-    
-function openT2() {
-            window.location.href = 'T2.html'; // เปิดหน้า T2.html
-        }
-        
-function openT3() {
-            window.location.href = 'T3.html'; // เปิดหน้า T3.html
-        }
-    
-    
-    
-    
-    
-</script>
-
+    <!-- เปิดหมวดหมู่เริ่มต้นเป็น "กีฬา" -->
+    <script>
+        // เรียกใช้งานฟังก์ชันให้แสดงหมวดหมู่ "กีฬา" เมื่อโหลดหน้าเว็บ
+        showCategory('sport');
+    showAllCategories();
+    </script>
+<script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet">
 </body>
 </html>
-
